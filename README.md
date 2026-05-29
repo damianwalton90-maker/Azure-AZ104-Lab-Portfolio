@@ -78,3 +78,34 @@ To architect a secure, high-availability corporate storage architecture utilizin
 - *Verification Log:* Visual rule parameters for automated file aging:
 
 ![Lifecycle Policy](domain-02-storage/03-lifecycle-policy.png)
+
+---
+
+## Domain 3: Deploy and Manage Azure Compute Resources
+
+### Project Objective
+To deploy a high-availability enterprise web application layer using Azure App Services, utilizing automated vertical/horizontal scaling rules to ensure performance reliability and proactive cost governance.
+
+---
+
+### Architecture Features, Verification Logs & Design Decisions
+
+#### 1. High-Availability Web App Architecture
+- Provisioned a production-grade Azure App Service layer (`fin-app-prod`) built on the modern .NET execution stack to host isolated cloud workloads.
+- Bound the deployment to a dedicated, scalable App Service Plan to unlock infrastructure fault tolerance and multi-instance capabilities.
+- *Verification Log:* Live, active production web application endpoint status:
+  
+![App Service Overview](domain-03-compute/01-app-service.png)
+
+> **Design Decision — Production-Tier Compute Isolation:** 
+> While Dev/Test tiers (like Free or Shared) keep cloud costs at zero during basic training, they lack critical enterprise features such as custom domains, scaling triggers, and deployment slots. A production-tier App Service Plan was selected to provide dedicated hardware instances, ensuring consistent compute performance and baseline resource availability for enterprise applications.
+
+#### 2. Automated Demand-Based Horizontal Scaling (Autoscale Rules)
+- Configured a declarative metric-based custom autoscale policy targeted directly at the application infrastructure layer.
+- Programmed an automated scaling rule: If the average compute performance pressure exceeds a strict 75% CPU threshold sustained over a 10-minute monitoring window, the platform automatically scales out by provisioning one additional compute instance.
+- *Verification Log:* Configured metric scale-out rule parameter matrix:
+
+![Autoscale Rules Configuration](domain-03-compute/02-scale-rule.png)
+
+> **Design Decision — Elasticity over Static Over-Provisioning:** 
+> Hardcoding a high number of virtual machine or application instances to handle peak traffic spikes results in massive corporate waste during low-use hours. Implementing metric-based horizontal autoscale rules creates an elastic environment that dynamically expands only when real-world demand requires it, dropping back down to base levels when traffic subsides to aggressively protect monthly cloud budgets.
